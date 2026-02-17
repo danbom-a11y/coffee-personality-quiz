@@ -31,6 +31,13 @@ export default function Home() {
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
+      const order: PersonalityType[] = ["bold", "zen", "artisan", "sweet"];
+      const winner = order.reduce((a, b) => newScores[a] >= newScores[b] ? a : b);
+      fetch('/api/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scores: newScores, primaryPersonality: winner }),
+      });
       setScreen("results");
     }
   };
